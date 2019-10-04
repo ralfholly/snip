@@ -1,48 +1,57 @@
 #ifndef SAFE_NUMERIC_INTEGER_PRIMITIVES
 #define SAFE_NUMERIC_INTEGER_PRIMITIVES
 
-static uint8_t snip_add_uint8(uint8_t a, uint8_t b, int* error) {
-    uint8_t result = (uint8_t)((uint8_t)a + (uint8_t)b);
-    if (result < a) {
-        *error |= 1;
-    }
-    return result;
+#define SNIP_DEFINE_ADD_UINT(bits) \
+static uint##bits##_t snip_add_uint##bits(uint##bits##_t a, uint##bits##_t b, int* error) { \
+    uint##bits##_t result = (uint##bits##_t)((uint##bits##_t)a + (uint##bits##_t)b); \
+    if (result < a) { \
+        *error |= 1; \
+    } \
+    return result; \
 }
 
-static int8_t snip_add_int8(int8_t a, int8_t b, int* error) {
-    static const int8_t max_val = (int8_t)(1U << ((8U - 1U) - 1U));
-    static const int8_t min_val = (int8_t)(-((int8_t)(1U << (8U - 1U))));
-    int8_t result = 0;
-    if (   ((b > 0) && (a > max_val - b))
-        || ((b < 0) && (a < min_val - b))) {
-        *error |= 1;
-    } else {
-        result = (int8_t)(a + b);
-    }
-    return result;
+#define SNIP_DEFINE_ADD_INT(bits) \
+static int##bits##_t snip_add_int8(int##bits##_t a, int##bits##_t b, int* error) { \
+    static const int##bits##_t max_val = (int##bits##_t)(1U << ((bits##U - 1U) - 1U)); \
+    static const int##bits##_t min_val = (int##bits##_t)(-((int##bits##_t)(1U << (bits##U - 1U)))); \
+    int##bits##_t result = 0; \
+    if (   ((b > 0) && (a > max_val - b)) \
+        || ((b < 0) && (a < min_val - b))) { \
+        *error |= 1; \
+    } else { \
+        result = (int##bits##_t)(a + b); \
+    } \
+    return result; \
 }
 
-static uint8_t snip_sub_uint8(uint8_t a, uint8_t b, int* error) {
-    uint8_t result = 0U;
 
-    if (a < b) {
-        *error |= 1;
-    } else {
-        result = (uint8_t)(a - b);
-    }
-    return result;
+#define SNIP_DEFINE_SUB_UINT(bits) \
+static uint##bits##_t snip_sub_uint8(uint##bits##_t a, uint##bits##_t b, int* error) { \
+    uint##bits##_t result = 0U; \
+    if (a < b) { \
+        *error |= 1; \
+    } else { \
+        result = (uint##bits##_t)(a - b); \
+    } \
+    return result; \
 }
 
-static int8_t snip_sub_int8(int8_t a, int8_t b, int* error) {
-    static const int8_t min_val = (int8_t)(-((int8_t)(1U << (8U - 1U))));
-    int8_t result = 0;
-
-    if (((uint8_t)a ^ (uint8_t)b) & (((uint8_t)a - (uint8_t)b) ^ (uint8_t)a) & (uint8_t)min_val) {
-        *error |= 1;
-    } else {
-        result = (int8_t)(a - b);
-    }
-    return result;
+#define SNIP_DEFINE_SUB_INT(bits) \
+static int##bits##_t snip_sub_int8(int##bits##_t a, int##bits##_t b, int* error) { \
+    static const int##bits##_t min_val = (int##bits##_t)(-((int##bits##_t)(1U << (bits##U - 1U)))); \
+    int##bits##_t result = 0; \
+    if (((uint##bits##_t)a ^ (uint##bits##_t)b) & (((uint##bits##_t)a - (uint##bits##_t)b) ^ (uint##bits##_t)a) & (uint##bits##_t)min_val) { \
+        *error |= 1; \
+    } else { \
+        result = (int##bits##_t)(a - b); \
+    } \
+    return result; \
 }
+
+SNIP_DEFINE_ADD_UINT(8)
+SNIP_DEFINE_ADD_INT(8)
+SNIP_DEFINE_SUB_UINT(8)
+SNIP_DEFINE_SUB_INT(8)
+
 
 #endif /* SAFE_NUMERIC_INTEGER_PRIMITIVES */

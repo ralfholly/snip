@@ -15,13 +15,15 @@ GTEST_LIBRARY_PATH = $(GOOGLE_TEST_HOME)/googlemock/gtest
 # make CPPFLAGS=-std=c++14
 override CPPFLAGS += -W -Wconversion -Wall -g -pthread -I $(GTEST_INCLUDE_PATH)/include -I $(GMOCK_INCLUDE_PATH)/include
 override LDFLAGS += -L$(GTEST_LIBRARY_PATH) -L$(GMOCK_LIBRARY_PATH)
-override LDLIBS += -lgtest_main -lgtest -lgmock
+override LDLIBS += -lgtest_main -lgtest -lgmock -lpthread -lstdc++
 
 .PHONY : all clean
 
 all: test
 
-snip: snip.cpp
+snip.o: snip.h
+
+snip: snip.o
 
 test: snip
 	./$<
