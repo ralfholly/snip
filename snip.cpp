@@ -9,14 +9,17 @@ using namespace std;
 #include "gmock/gmock.h"
 using namespace testing;
 
+// TODO: Remove, once all families have been tested.
+#pragma GCC diagnostic ignored "-Wunused-function"
+
 #include "snip.h"
 
 
 namespace testing {
 namespace snip {
 
-
 #pragma GCC diagnostic warning "-Wsign-conversion"
+
 
 TEST(snip, YourTest) {
     int error;
