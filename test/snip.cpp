@@ -14,14 +14,12 @@ using namespace testing;
 
 #include "snip.h"
 
-
 namespace testing {
 namespace snip {
 
 #pragma GCC diagnostic warning "-Wsign-conversion"
 
-
-TEST(snip, YourTest) {
+TEST(snip, simple) {
     int error;
     uint8_t u8_result;
     int8_t i8_result;
@@ -73,7 +71,6 @@ TEST(snip, YourTest) {
     EXPECT_EQ(0, error);
     EXPECT_EQ(-13, i8_result);
 }
-
 
 } // namespace snip
 } // namespace testing
