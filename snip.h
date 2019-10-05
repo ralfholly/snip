@@ -50,7 +50,7 @@ static uint##bits##_t snip_add_uint##bits(uint##bits##_t a, uint##bits##_t b, in
 
 #define SNIP_DEFINE_ADD_INT(bits) \
 static int##bits##_t snip_add_int##bits(int##bits##_t a, int##bits##_t b, int* error) { \
-    static const int##bits##_t max_val = (int##bits##_t)((1U << (bits##U - 1U)) - 1U); \
+    static const int##bits##_t max_val = (int##bits##_t)(((uint##bits##_t)1U << (bits##U - 1U)) - 1U); \
     static const int##bits##_t min_val = -max_val - 1; \
     int##bits##_t result = 0; \
     if (   ((b > 0) && (a > max_val - b)) \
@@ -75,7 +75,7 @@ static uint##bits##_t snip_sub_uint##bits(uint##bits##_t a, uint##bits##_t b, in
 
 #define SNIP_DEFINE_SUB_INT(bits) \
 static int##bits##_t snip_sub_int##bits(int##bits##_t a, int##bits##_t b, int* error) { \
-    static const int##bits##_t max_val = (int##bits##_t)((1U << (bits##U - 1U)) - 1U); \
+    static const int##bits##_t max_val = (int##bits##_t)(((uint##bits##_t)1U << (bits##U - 1U)) - 1U); \
     static const int##bits##_t min_val = -max_val - 1; \
     int##bits##_t result = 0; \
     if (((uint##bits##_t)a ^ (uint##bits##_t)b) & (((uint##bits##_t)a - (uint##bits##_t)b) ^ (uint##bits##_t)a) & (uint##bits##_t)min_val) { \
