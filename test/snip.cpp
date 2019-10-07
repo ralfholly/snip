@@ -20,7 +20,7 @@ namespace snip {
 #pragma GCC diagnostic warning "-Wsign-conversion"
 
 TEST(snip, simple) {
-    int error;
+    uint8_t error;
     uint8_t u8_result;
     int8_t i8_result;
 
