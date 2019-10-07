@@ -184,7 +184,7 @@ TEST(snip, add_uint64_overflow) {
 
 TEST(snip, add_int8_no_overflow) {
     uint8_t error;
-    static const int8_t max_val = (int8_t)(1 << 7);
+    static const int8_t max_val = (int8_t)((1 << (8 - 1)) - 1);
     static const int8_t min_val = -max_val - 1;
     typedef int8_t (* PRIM)(int8_t a, int8_t b, uint8_t* error);
     static const PRIM prim = &snip_add_int8;
@@ -192,23 +192,55 @@ TEST(snip, add_int8_no_overflow) {
     error = 0; EXPECT_EQ(0, (*prim)(0, 0, &error)); EXPECT_EQ(0, error);
     error = 0; EXPECT_EQ(1, (*prim)(1, 0, &error)); EXPECT_EQ(0, error);
     error = 0; EXPECT_EQ(1, (*prim)(0, 1, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(-2, (*prim)(-1, -1, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(0, (*prim)(-100, 100, &error)); EXPECT_EQ(0, error);
     error = 0; EXPECT_EQ(-1, (*prim)(min_val, max_val, &error)); EXPECT_EQ(0, error);
 }
 
+TEST(snip, add_int16_no_overflow) {
+    uint8_t error;
+    static const int16_t max_val = (int16_t)((1 << (16 - 1)) - 1);
+    static const int16_t min_val = -max_val - 1;
+    typedef int16_t (* PRIM)(int16_t a, int16_t b, uint8_t* error);
+    static const PRIM prim = &snip_add_int16;
 
-/*
+    error = 0; EXPECT_EQ(0, (*prim)(0, 0, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(1, (*prim)(1, 0, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(1, (*prim)(0, 1, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(-2, (*prim)(-1, -1, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(0, (*prim)(-100, 100, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(-1, (*prim)(min_val, max_val, &error)); EXPECT_EQ(0, error);
+}
 
-unsigned add
-    no overflow
-    0 + 0
-    1 + 0
-    1 + 1
-    (MAX_INT/2 + 1) + (MAX_INT/2)
-    (MAX_INT/2) + (MAX_INT/2 + 1)
+TEST(snip, add_int32_no_overflow) {
+    uint8_t error;
+    static const int32_t max_val = (int32_t)(((uint32_t)1 << (32 - 1)) - 1);
+    static const int32_t min_val = -max_val - 1;
+    typedef int32_t (* PRIM)(int32_t a, int32_t b, uint8_t* error);
+    static const PRIM prim = &snip_add_int32;
 
-overflow
+    error = 0; EXPECT_EQ(0, (*prim)(0, 0, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(1, (*prim)(1, 0, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(1, (*prim)(0, 1, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(-2, (*prim)(-1, -1, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(0, (*prim)(-100, 100, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(-1, (*prim)(min_val, max_val, &error)); EXPECT_EQ(0, error);
+}
 
-*/
+TEST(snip, add_int64_no_overflow) {
+    uint8_t error;
+    static const int64_t max_val = (int64_t)(((uint64_t)1 << (64 - 1)) - 1);
+    static const int64_t min_val = -max_val - 1;
+    typedef int64_t (* PRIM)(int64_t a, int64_t b, uint8_t* error);
+    static const PRIM prim = &snip_add_int64;
+
+    error = 0; EXPECT_EQ(0, (*prim)(0, 0, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(1, (*prim)(1, 0, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(1, (*prim)(0, 1, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(-2, (*prim)(-1, -1, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(0, (*prim)(-100, 100, &error)); EXPECT_EQ(0, error);
+    error = 0; EXPECT_EQ(-1, (*prim)(min_val, max_val, &error)); EXPECT_EQ(0, error);
+}
 
 
 
