@@ -102,6 +102,8 @@ static int16_t snip_div_int16(int16_t a, int16_t b, uint8_t* error);
 static int32_t snip_div_int32(int32_t a, int32_t b, uint8_t* error);
 static int64_t snip_div_int64(int64_t a, int64_t b, uint8_t* error);
 
+/* IMPLEMENTATION */
+
 #define SNIP_DEFINE_ADD_UINT(bits) \
 static uint##bits##_t snip_add_uint##bits(uint##bits##_t a, uint##bits##_t b, uint8_t* error) { \
     uint##bits##_t result = (uint##bits##_t)((uint##bits##_t)a + (uint##bits##_t)b); \
