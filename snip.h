@@ -20,14 +20,63 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  * PREREQUESITES:
+ *   Ensure that the portable integer types uint#_t and int#_t are properly
+ *   defined, for instance by including the C99 header 'stdint.h'.
  *
- * Ensure that the portable integer types uint#_t and int#_t are properly
- * defined, for instance by including the C99 header 'stdint.h'.
- *
+ * GITHUB:
+ *   https://github.com/ralfholly/snip
  */
 
 #ifndef SAFE_NUMERIC_INTEGER_PRIMITIVES
 #define SAFE_NUMERIC_INTEGER_PRIMITIVES
+
+/**
+ * Add two unsigned integers.
+ * @param a First operand.
+ * @param b Second operand.
+ * @param[out] error. 0 if the result of the operation doesn't overflow the valid integer range; != 0 otherwise.
+ * @return Result of the operation, if *error == 0; unspecified if *error != 0.
+ */
+static uint8_t snip_add_uint8(uint8_t a, uint8_t b, uint8_t* error);
+static uint16_t snip_add_uint16(uint16_t a, uint16_t b, uint8_t* error);
+static uint32_t snip_add_uint32(uint32_t a, uint32_t b, uint8_t* error);
+static uint64_t snip_add_uint64(uint64_t a, uint64_t b, uint8_t* error);
+
+/**
+ * Add two signed integers.
+ * @param a First operand.
+ * @param b Second operand.
+ * @param[out] error. 0 if the result of the operation doesn't overflow the valid integer range; != 0 otherwise.
+ * @return Result of the operation, if *error == 0; unspecified if *error != 0.
+ */
+static int8_t snip_add_int8(int8_t a, int8_t b, uint8_t* error);
+static int16_t snip_add_int16(int16_t a, int16_t b, uint8_t* error);
+static int32_t snip_add_int32(int32_t a, int32_t b, uint8_t* error);
+static int64_t snip_add_int64(int64_t a, int64_t b, uint8_t* error);
+
+/**
+ * Subtract an unsigned integer from another unsigned integer.
+ * @param a Operand, from which operand 'b' is to be subtracted.
+ * @param b Operand, which is to be subtracted from operand 'a'.
+ * @param[out] error. 0 if the result of the operation doesn't overflow the valid integer range; != 0 otherwise.
+ * @return Result of the operation, if *error == 0; unspecified if *error != 0.
+ */
+static uint8_t snip_sub_uint8(uint8_t a, uint8_t b, uint8_t* error);
+static uint16_t snip_sub_uint16(uint16_t a, uint16_t b, uint8_t* error);
+static uint32_t snip_sub_uint32(uint32_t a, uint32_t b, uint8_t* error);
+static uint64_t snip_sub_uint64(uint64_t a, uint64_t b, uint8_t* error);
+
+/**
+ * Subtract a signed integer from another signed integer.
+ * @param a Operand, from which operand 'b' is to be subtracted.
+ * @param b Operand, which is to be subtracted from operand 'a'.
+ * @param[out] error. 0 if the result of the operation doesn't overflow the valid integer range; != 0 otherwise.
+ * @return Result of the operation, if *error == 0; unspecified if *error != 0.
+ */
+static int8_t snip_sub_int8(int8_t a, int8_t b, int8_t* error);
+static int16_t snip_sub_int16(int16_t a, int16_t b, int8_t* error);
+static int32_t snip_sub_int32(int32_t a, int32_t b, int8_t* error);
+static int64_t snip_sub_int64(int64_t a, int64_t b, int8_t* error);
 
 
 #define SNIP_DEFINE_ADD_UINT(bits) \
