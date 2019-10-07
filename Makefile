@@ -21,12 +21,12 @@ override LDLIBS += -lgtest_main -lgtest -lgmock -lpthread -lstdc++
 
 all: test
 
-test/snip.o: snip.h
+test/snip_tests.o: snip.h
 
-test/snip: test/snip.o
+test/snip_tests: test/snip_tests.o
 
-test: test/snip
+test: test/snip_tests
 	./$<
 
 clean:
-	( cd test; rm -rf *.o snip )
+	( cd test; rm -rf *.o snip_tests )
