@@ -73,10 +73,10 @@ static uint64_t snip_sub_uint64(uint64_t a, uint64_t b, uint8_t* error);
  * @param[out] error. 0 if the result of the operation doesn't overflow the valid integer range; != 0 otherwise.
  * @return Result of the operation, if *error == 0; unspecified if *error != 0.
  */
-static int8_t snip_sub_int8(int8_t a, int8_t b, int8_t* error);
-static int16_t snip_sub_int16(int16_t a, int16_t b, int8_t* error);
-static int32_t snip_sub_int32(int32_t a, int32_t b, int8_t* error);
-static int64_t snip_sub_int64(int64_t a, int64_t b, int8_t* error);
+static int8_t snip_sub_int8(int8_t a, int8_t b, uint8_t* error);
+static int16_t snip_sub_int16(int16_t a, int16_t b, uint8_t* error);
+static int32_t snip_sub_int32(int32_t a, int32_t b, uint8_t* error);
+static int64_t snip_sub_int64(int64_t a, int64_t b, uint8_t* error);
 
 
 #define SNIP_DEFINE_ADD_UINT(bits) \
