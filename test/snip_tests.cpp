@@ -91,7 +91,6 @@ TEST(snip, sub_unsigned) {
     { error = 0; snip_sub_uint64(0, 1, &error); EXPECT_EQ(1, error); }
 }
 
-
 TEST(snip, sub_signed) {
     uint8_t error;
 
@@ -117,7 +116,6 @@ TEST(snip, sub_signed) {
     { error = 0; snip_sub_int32(int32_min, int32_max, &error); EXPECT_EQ(1, error); }
     { error = 0; snip_sub_int64(int64_min, int64_max, &error); EXPECT_EQ(1, error); }
 }
-
 
 TEST(snip, ensure_error_not_reset) {
     uint8_t error;
@@ -146,6 +144,68 @@ TEST(snip, chaining) {
             snip_sub_uint32(50,
                 snip_add_uint32(50, 50, &error), &error), &error), &error);
     EXPECT_EQ(1, error);
+}
+
+TEST(snip, div_unsigned) {
+    uint8_t error;
+
+    // ... No overflow.
+    { error = 0; uint8_t result = snip_div_uint8(10, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5U, result); }
+    { error = 0; uint16_t result = snip_div_uint16(10, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5U, result); }
+    { error = 0; uint32_t result = snip_div_uint32(10, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5U, result); }
+    { error = 0; uint64_t result = snip_div_uint64(10, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5U, result); }
+
+    { error = 0; uint8_t result = snip_div_uint8(11, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5U, result); }
+    { error = 0; uint16_t result = snip_div_uint16(11, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5U, result); }
+    { error = 0; uint32_t result = snip_div_uint32(11, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5U, result); }
+    { error = 0; uint64_t result = snip_div_uint64(11, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5U, result); }
+
+    { error = 0; uint8_t result = snip_div_uint8(0, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(0U, result); }
+    { error = 0; uint16_t result = snip_div_uint16(0, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(0U, result); }
+    { error = 0; uint32_t result = snip_div_uint32(0, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(0U, result); }
+    { error = 0; uint64_t result = snip_div_uint64(0, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(0U, result); }
+
+    { error = 0; uint8_t result = snip_div_uint8(uint8_max, 1, &error); EXPECT_EQ(0, error); EXPECT_EQ(uint8_max, result); }
+    { error = 0; uint16_t result = snip_div_uint16(uint16_max, 1, &error); EXPECT_EQ(0, error); EXPECT_EQ(uint16_max, result); }
+    { error = 0; uint32_t result = snip_div_uint32(uint32_max, 1, &error); EXPECT_EQ(0, error); EXPECT_EQ(uint32_max, result); }
+    { error = 0; uint64_t result = snip_div_uint64(uint64_max, 1, &error); EXPECT_EQ(0, error); EXPECT_EQ(uint64_max, result); }
+
+    // ... Overflow.
+    { error = 0; snip_div_int8(10, 0, &error); EXPECT_EQ(1, error); }
+    { error = 0; snip_div_int16(10, 0, &error); EXPECT_EQ(1, error); }
+    { error = 0; snip_div_int32(10, 0, &error); EXPECT_EQ(1, error); }
+    { error = 0; snip_div_int64(10, 0, &error); EXPECT_EQ(1, error); }
+}
+
+TEST(snip, div_signed) {
+    uint8_t error;
+
+    // ... No overflow.
+    { error = 0; int8_t result = snip_div_int8(10, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5, result); }
+    { error = 0; int16_t result = snip_div_int16(10, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5, result); }
+    { error = 0; int32_t result = snip_div_int32(10, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5, result); }
+    { error = 0; int64_t result = snip_div_int64(10, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5, result); }
+
+    { error = 0; int8_t result = snip_div_int8(11, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5, result); }
+    { error = 0; int16_t result = snip_div_int16(11, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5, result); }
+    { error = 0; int32_t result = snip_div_int32(11, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5, result); }
+    { error = 0; int64_t result = snip_div_int64(11, 2, &error); EXPECT_EQ(0, error); EXPECT_EQ(5, result); }
+
+    { error = 0; int8_t result = snip_div_int8(int8_max, -1, &error); EXPECT_EQ(0, error); EXPECT_EQ(int8_min + 1, result); }
+    { error = 0; int16_t result = snip_div_int16(int16_max, -1, &error); EXPECT_EQ(0, error); EXPECT_EQ(int16_min + 1, result); }
+    { error = 0; int32_t result = snip_div_int32(int32_max, -1, &error); EXPECT_EQ(0, error); EXPECT_EQ(int32_min + 1, result); }
+    { error = 0; int64_t result = snip_div_int64(int64_max, -1, &error); EXPECT_EQ(0, error); EXPECT_EQ(int64_min + 1, result); }
+
+    // ... Overflow.
+    { error = 0; snip_div_int8(int8_max, 0, &error); EXPECT_EQ(1, error); }
+    { error = 0; snip_div_int16(int16_max, 0, &error); EXPECT_EQ(1, error); }
+    { error = 0; snip_div_int32(int32_max, 0, &error); EXPECT_EQ(1, error); }
+    { error = 0; snip_div_int64(int64_max, 0, &error); EXPECT_EQ(1, error); }
+
+    { error = 0; snip_div_int8(int8_min, -1, &error); EXPECT_EQ(1, error); }
+    { error = 0; snip_div_int16(int16_min, -1, &error); EXPECT_EQ(1, error); }
+    { error = 0; snip_div_int32(int32_min, -1, &error); EXPECT_EQ(1, error); }
+    { error = 0; snip_div_int64(int64_min, -1, &error); EXPECT_EQ(1, error); }
 }
 
 } // namespace snip
