@@ -9,7 +9,9 @@ using namespace std;
 #include "gmock/gmock.h"
 using namespace testing;
 
-#include "snip.h"
+// Use inline version of SNIP.
+#define SNIP_INLINE inline
+#include "snip.c"
 
 namespace testing {
 namespace snip {
