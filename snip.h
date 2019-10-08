@@ -48,8 +48,8 @@ extern "C" {
  * Add two unsigned integers.
  * @param a First operand.
  * @param b Second operand.
- * @param[out] error. 0 if the result of the operation doesn't overflow the valid integer range; != 0 otherwise.
- * @return Result of the operation, if *error == 0; unspecified if *error != 0.
+ * @param[out] error. Set to 1 iff the result of the operation overflows the valid integer range.
+ * @return Result of the operation, iff no overflow condition occurred.
  */
 SNIP_INLINE uint8_t snip_add_uint8(uint8_t a, uint8_t b, uint8_t* error);
 SNIP_INLINE uint16_t snip_add_uint16(uint16_t a, uint16_t b, uint8_t* error);
@@ -60,8 +60,8 @@ SNIP_INLINE uint64_t snip_add_uint64(uint64_t a, uint64_t b, uint8_t* error);
  * Add two signed integers.
  * @param a First operand.
  * @param b Second operand.
- * @param[out] error. 0 if the result of the operation doesn't overflow the valid integer range; != 0 otherwise.
- * @return Result of the operation, if *error == 0; unspecified if *error != 0.
+ * @param[out] error. Set to 1 iff the result of the operation overflows the valid integer range.
+ * @return Result of the operation, iff no overflow condition occurred.
  */
 SNIP_INLINE int8_t snip_add_int8(int8_t a, int8_t b, uint8_t* error);
 SNIP_INLINE int16_t snip_add_int16(int16_t a, int16_t b, uint8_t* error);
@@ -72,8 +72,8 @@ SNIP_INLINE int64_t snip_add_int64(int64_t a, int64_t b, uint8_t* error);
  * Subtract an unsigned integer from another unsigned integer.
  * @param a Operand, from which operand 'b' is to be subtracted.
  * @param b Operand, which is to be subtracted from operand 'a'.
- * @param[out] error. 0 if the result of the operation doesn't overflow the valid integer range; != 0 otherwise.
- * @return Result of the operation, if *error == 0; unspecified if *error != 0.
+ * @param[out] error. Set to 1 iff the result of the operation overflows the valid integer range.
+ * @return Result of the operation, iff no overflow condition occurred.
  */
 SNIP_INLINE uint8_t snip_sub_uint8(uint8_t a, uint8_t b, uint8_t* error);
 SNIP_INLINE uint16_t snip_sub_uint16(uint16_t a, uint16_t b, uint8_t* error);
@@ -84,8 +84,8 @@ SNIP_INLINE uint64_t snip_sub_uint64(uint64_t a, uint64_t b, uint8_t* error);
  * Subtract a signed integer from another signed integer.
  * @param a Operand, from which operand 'b' is to be subtracted.
  * @param b Operand, which is to be subtracted from operand 'a'.
- * @param[out] error. 0 if the result of the operation doesn't overflow the valid integer range; != 0 otherwise.
- * @return Result of the operation, if *error == 0; unspecified if *error != 0.
+ * @param[out] error. Set to 1 iff the result of the operation overflows the valid integer range.
+ * @return Result of the operation, iff no overflow condition occurred.
  */
 SNIP_INLINE int8_t snip_sub_int8(int8_t a, int8_t b, uint8_t* error);
 SNIP_INLINE int16_t snip_sub_int16(int16_t a, int16_t b, uint8_t* error);
@@ -96,8 +96,8 @@ SNIP_INLINE int64_t snip_sub_int64(int64_t a, int64_t b, uint8_t* error);
  * Multiply two unsigned integers.
  * @param a First operand.
  * @param b Second operand.
- * @param[out] error. 0 if the result of the operation doesn't overflow the valid integer range; != 0 otherwise.
- * @return Result of the operation, if *error == 0; unspecified if *error != 0.
+ * @param[out] error. Set to 1 iff the result of the operation overflows the valid integer range.
+ * @return Result of the operation, iff no overflow condition occurred.
  */
 SNIP_INLINE uint8_t snip_mul_uint8(uint8_t a, uint8_t b, uint8_t* error);
 SNIP_INLINE uint16_t snip_mul_uint16(uint16_t a, uint16_t b, uint8_t* error);
@@ -108,8 +108,8 @@ SNIP_INLINE uint64_t snip_mul_uint64(uint64_t a, uint64_t b, uint8_t* error);
  * Multiply two signed integers.
  * @param a First operand.
  * @param b Second operand.
- * @param[out] error. 0 if the result of the operation doesn't overflow the valid integer range; != 0 otherwise.
- * @return Result of the operation, if *error == 0; unspecified if *error != 0.
+ * @param[out] error. Set to 1 iff the result of the operation overflows the valid integer range.
+ * @return Result of the operation, iff no overflow condition occurred.
  */
 SNIP_INLINE int8_t snip_mul_int8(int8_t a, int8_t b, uint8_t* error);
 SNIP_INLINE int16_t snip_mul_int16(int16_t a, int16_t b, uint8_t* error);
@@ -120,8 +120,8 @@ SNIP_INLINE int64_t snip_mul_int64(int64_t a, int64_t b, uint8_t* error);
  * Divide an unsigned integer by another unsigned integer.
  * @param a Dividend.
  * @param b Divisor.
- * @param[out] error. 0 if the result of the operation doesn't overflow the valid integer range; != 0 otherwise.
- * @return Result of the operation, if *error == 0; unspecified if *error != 0.
+ * @param[out] error. Set to 1 iff the result of the operation overflows the valid integer range.
+ * @return Result of the operation, iff no overflow condition occurred.
  */
 SNIP_INLINE uint8_t snip_div_uint8(uint8_t a, uint8_t b, uint8_t* error);
 SNIP_INLINE uint16_t snip_div_uint16(uint16_t a, uint16_t b, uint8_t* error);
@@ -132,15 +132,17 @@ SNIP_INLINE uint64_t snip_div_uint64(uint64_t a, uint64_t b, uint8_t* error);
  * Divide a signed integer by another signed integer.
  * @param a Dividend.
  * @param b Divisor.
- * @param[out] error. 0 if the result of the operation doesn't overflow the valid integer range; != 0 otherwise.
- * @return Result of the operation, if *error == 0; unspecified if *error != 0.
+ * @param[out] error. Set to 1 iff the result of the operation overflows the valid integer range.
+ * @return Result of the operation, iff no overflow condition occurred.
  */
 SNIP_INLINE int8_t snip_div_int8(int8_t a, int8_t b, uint8_t* error);
 SNIP_INLINE int16_t snip_div_int16(int16_t a, int16_t b, uint8_t* error);
 SNIP_INLINE int32_t snip_div_int32(int32_t a, int32_t b, uint8_t* error);
 SNIP_INLINE int64_t snip_div_int64(int64_t a, int64_t b, uint8_t* error);
 
+/* Minimum and maximum values for integer types. */
 #define SNIP_UINT_MAX(bits) ((2U * (((uint##bits##_t)1U << (bits - 1)) - 1U)) + 1U)
+#define SNIP_UINT_MIN(bits) (0U)
 #define SNIP_INT_MAX(bits)  ((int##bits##_t)(((uint##bits##_t)1U << (bits##U - 1U)) - 1U))
 #define SNIP_INT_MIN(bits)  (-SNIP_INT_MAX(bits) - 1)
 
