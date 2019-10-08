@@ -1,5 +1,25 @@
 #include "snip.h"
 
+
+/*
+ * MISRA C 2012 Deviations:
+ * ------------------------
+ *
+ * This module uses function-like macros as well as the pasting operator ## to
+ * achieve a high degree of code reuse while at the same time maintaining
+ * backward compatibility to plain 'ol C. The following PC-lint PLUS / MISRA C
+ * 2012 warnings have been suppressed in this module:
+ *
+ * note 9026: function-like macro defined
+ *            [MISRA 2012 Directive 4.9, advisory]
+ * note 9024: pasting operator used in definition of function-like macro
+ *            [MISRA 2012 Rule 20.10, advisory]
+ * note 9023: multiple use of stringize/pasting operators in definition of macro
+ *            [MISRA 2012 Rule 1.3, required]
+ */
+
+/*lint -esym(9026, SNIP_DEFINE*) -esym(9024, SNIP_DEFINE*) -esym(9023, SNIP_DEFINE*) */
+
 #define SNIP_DEFINE_ADD_UINT(bits) \
 SNIP_INLINE uint##bits##_t snip_add_uint##bits(uint##bits##_t a, uint##bits##_t b, uint8_t* error) { \
     uint##bits##_t result = (uint##bits##_t)((uint##bits##_t)a + (uint##bits##_t)b); \
