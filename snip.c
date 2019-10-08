@@ -35,7 +35,8 @@ SNIP_INLINE uint##bits##_t snip_sub_uint##bits(uint##bits##_t a, uint##bits##_t 
 #define SNIP_DEFINE_SUB_INT(bits) \
 SNIP_INLINE int##bits##_t snip_sub_int##bits(int##bits##_t a, int##bits##_t b, uint8_t* error) { \
     int##bits##_t result = 0; \
-    if (((uint##bits##_t)a ^ (uint##bits##_t)b) & (((uint##bits##_t)a - (uint##bits##_t)b) ^ (uint##bits##_t)a) & (uint##bits##_t)SNIP_INT_MIN(bits)) { \
+    if (   (b > 0 && a < SNIP_INT_MIN(bits) + b) \
+        || (b < 0 && a > SNIP_INT_MAX(bits) + b)) { \
         *error = 1U; \
     } else { \
         result = (int##bits##_t)(a - b); \
