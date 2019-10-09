@@ -1,2 +1,4 @@
 snip_tests
 *.o
+gcc.lnt
+gcc.h

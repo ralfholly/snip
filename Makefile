@@ -28,5 +28,17 @@ test/snip_tests: test/snip_tests.o
 test: test/snip_tests
 	./$<
 
+# PC-lint Plus MISRA checking.
+misra: gcc.lnt
+	pclp gcc.lnt ${PCLP_HOME}/lnt/au-misra3.lnt -wlib\(1\) -u snip.c
+
+gcc.lnt:
+	python ${PCLP_HOME}/config/pclp_config.py \
+	    --compiler-database=${PCLP_HOME}/config/compilers.yaml \
+	    --compiler=gcc --compiler-bin=/usr/bin/gcc \
+	    --config-output-lnt-file=gcc.lnt \
+	    --config-output-header-file=gcc.h \
+	    --generate-compiler-config
+
 clean:
-	( cd test; rm -rf *.o snip_tests )
+	( rm gcc.lnt gcc.h; cd test; rm -rf *.o snip_tests )
