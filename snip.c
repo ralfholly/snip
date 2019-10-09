@@ -58,29 +58,33 @@ SNIP_INLINE uint##bits##_t snip_mul_uint##bits(uint##bits##_t a, uint##bits##_t 
 #define SNIP_DEFINE_MUL_INT(bits) \
 SNIP_INLINE int##bits##_t snip_mul_int##bits(int##bits##_t a, int##bits##_t b, uint8_t* error) { \
     int##bits##_t result = 0; \
+    uint8_t local_error =0U; \
     if (a > 0) { \
         if (b > 0) { \
             if (a > (SNIP_INT_MAX(bits) / b)) { \
-                *error = 1U; \
+                local_error = 1U; \
             } \
         } else { \
             if (b < (SNIP_INT_MIN(bits) / a)) { \
-                *error = 1U; \
+                local_error = 1U; \
             } \
         } \
     } else { \
         if (b > 0) { \
             if (a < (SNIP_INT_MIN(bits) / b)) { \
-                *error = 1U; \
+                local_error = 1U; \
             } \
         } else { \
             if ( (a != 0) && (b < (SNIP_INT_MAX(bits) / a))) { \
-                *error = 1U; \
+                local_error = 1U; \
             } \
         } \
     } \
-    if (*error == 0U) { \
+    if (local_error == 0U) { \
         result = (int##bits##_t)(a * b); \
+    } else \
+    { \
+        *error = 1U; \
     } \
     return result; \
 }

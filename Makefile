@@ -23,7 +23,7 @@ all: test
 
 test/snip_tests.o: snip.h
 
-test/snip_tests: test/snip_tests.o
+test/snip_tests: test/snip_tests.o snip.c
 
 test: test/snip_tests
 	./$<
