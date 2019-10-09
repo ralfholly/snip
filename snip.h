@@ -24,7 +24,7 @@
  *   defined, for instance by including the C99 header 'stdint.h'.
  *
  * GITHUB:
- *   https://github.com/ralfholly/snip
+ *   github.com/ralfholly/snip
  */
 
 #ifndef SAFE_NUMERIC_INTEGER_PRIMITIVES

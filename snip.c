@@ -1,25 +1,5 @@
 #include "snip.h"
 
-
-/*
- * MISRA C 2012 Deviations:
- * ------------------------
- *
- * This module uses function-like macros as well as the pasting operator ## to
- * achieve a high degree of code reuse while at the same time maintaining
- * backward compatibility to plain 'ol C. The following PC-lint PLUS / MISRA C
- * 2012 warnings have been suppressed in this module:
- *
- * note 9026: function-like macro defined
- *            [MISRA 2012 Directive 4.9, advisory]
- * note 9024: pasting operator used in definition of function-like macro
- *            [MISRA 2012 Rule 20.10, advisory]
- * note 9023: multiple use of stringize/pasting operators in definition of macro
- *            [MISRA 2012 Rule 1.3, required]
- */
-
-/*lint -esym(9026, SNIP_DEFINE*) -esym(9024, SNIP_DEFINE*) -esym(9023, SNIP_DEFINE*) */
-
 #define SNIP_DEFINE_ADD_UINT(bits) \
 SNIP_INLINE uint##bits##_t snip_add_uint##bits(uint##bits##_t a, uint##bits##_t b, uint8_t* error) { \
     uint##bits##_t result = (uint##bits##_t)((uint##bits##_t)a + (uint##bits##_t)b); \
@@ -32,8 +12,8 @@ SNIP_INLINE uint##bits##_t snip_add_uint##bits(uint##bits##_t a, uint##bits##_t 
 #define SNIP_DEFINE_ADD_INT(bits) \
 SNIP_INLINE int##bits##_t snip_add_int##bits(int##bits##_t a, int##bits##_t b, uint8_t* error) { \
     int##bits##_t result = 0; \
-    if (   ((b > 0) && (a > SNIP_INT_MAX(bits) - b)) \
-        || ((b < 0) && (a < SNIP_INT_MIN(bits) - b))) { \
+    if (   ((b > 0) && (a > (SNIP_INT_MAX(bits) - b))) \
+        || ((b < 0) && (a < (SNIP_INT_MIN(bits) - b)))) { \
         *error = 1U; \
     } else { \
         result = (int##bits##_t)(a + b); \
@@ -55,8 +35,8 @@ SNIP_INLINE uint##bits##_t snip_sub_uint##bits(uint##bits##_t a, uint##bits##_t 
 #define SNIP_DEFINE_SUB_INT(bits) \
 SNIP_INLINE int##bits##_t snip_sub_int##bits(int##bits##_t a, int##bits##_t b, uint8_t* error) { \
     int##bits##_t result = 0; \
-    if (   (b > 0 && a < SNIP_INT_MIN(bits) + b) \
-        || (b < 0 && a > SNIP_INT_MAX(bits) + b)) { \
+    if (   ((b > 0) && (a < ((SNIP_INT_MIN(bits) + b)))) \
+        || ((b < 0) && (a > ((SNIP_INT_MAX(bits) + b))))) { \
         *error = 1U; \
     } else { \
         result = (int##bits##_t)(a - b); \
@@ -67,7 +47,7 @@ SNIP_INLINE int##bits##_t snip_sub_int##bits(int##bits##_t a, int##bits##_t b, u
 #define SNIP_DEFINE_MUL_UINT(bits) \
 SNIP_INLINE uint##bits##_t snip_mul_uint##bits(uint##bits##_t a, uint##bits##_t b, uint8_t* error) { \
     uint##bits##_t result = 0U; \
-    if ((b != 0) && (a > (SNIP_UINT_MAX(bits) / b))) { \
+    if ((b != 0U) && (a > (SNIP_UINT_MAX(bits) / b))) { \
         *error = 1U; \
     } else { \
         result = (uint##bits##_t)(a * b); \
@@ -78,34 +58,30 @@ SNIP_INLINE uint##bits##_t snip_mul_uint##bits(uint##bits##_t a, uint##bits##_t 
 #define SNIP_DEFINE_MUL_INT(bits) \
 SNIP_INLINE int##bits##_t snip_mul_int##bits(int##bits##_t a, int##bits##_t b, uint8_t* error) { \
     int##bits##_t result = 0; \
-    do { \
-        if (a > 0) { \
-            if (b > 0) { \
-                if (a > (SNIP_INT_MAX(bits) / b)) { \
-                    *error = 1U; \
-                    break; \
-                } \
-            } else { \
-                if (b < (SNIP_INT_MIN(bits) / a)) { \
-                    *error = 1U; \
-                    break; \
-                } \
+    if (a > 0) { \
+        if (b > 0) { \
+            if (a > (SNIP_INT_MAX(bits) / b)) { \
+                *error = 1U; \
             } \
         } else { \
-            if (b > 0) { \
-                if (a < (SNIP_INT_MIN(bits) / b)) { \
-                    *error = 1U; \
-                    break; \
-                } \
-            } else { \
-                if ( (a != 0) && (b < (SNIP_INT_MAX(bits) / a))) { \
-                    *error = 1U; \
-                    break; \
-                } \
+            if (b < (SNIP_INT_MIN(bits) / a)) { \
+                *error = 1U; \
             } \
         } \
+    } else { \
+        if (b > 0) { \
+            if (a < (SNIP_INT_MIN(bits) / b)) { \
+                *error = 1U; \
+            } \
+        } else { \
+            if ( (a != 0) && (b < (SNIP_INT_MAX(bits) / a))) { \
+                *error = 1U; \
+            } \
+        } \
+    } \
+    if (*error == 0U) { \
         result = (int##bits##_t)(a * b); \
-    } while (0); \
+    } \
     return result; \
 }
 

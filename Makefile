@@ -29,8 +29,10 @@ test: test/snip_tests
 	./$<
 
 # PC-lint Plus MISRA checking.
+.PHONY: misra
 misra: gcc.lnt
-	pclp gcc.lnt ${PCLP_HOME}/lnt/au-misra3.lnt -wlib\(1\) -u snip.c
+	pclp misra-deviations.lnt misc/output-quickfix.lnt gcc.lnt ${PCLP_HOME}/lnt/au-misra3.lnt \
+	-wlib\(1\) -u snip.c
 
 gcc.lnt:
 	python ${PCLP_HOME}/config/pclp_config.py \
