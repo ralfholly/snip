@@ -43,4 +43,4 @@ gcc.lnt:
 	    --generate-compiler-config
 
 clean:
-	( rm gcc.lnt gcc.h; cd test; rm -rf *.o snip_tests )
+	( rm -rf gcc.lnt gcc.h; cd test; rm -rf *.o snip_tests )
