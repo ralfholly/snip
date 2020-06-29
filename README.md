@@ -1,4 +1,4 @@
-SNIP — Safe Numeric Integer Primitives
+SNIP — Safe Numeric/Integer Primitives
 ======================================
 
 Summary
